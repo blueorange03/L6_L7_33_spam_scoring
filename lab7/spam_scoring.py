@@ -1,17 +1,38 @@
 def sender_domain(email):
-    return email.split('@')[1].lower()
+    """Return the lower-case domain from a basic email address, or an empty string."""
+    if not isinstance(email, str):
+        return ""
+    local, separator, domain = email.strip().partition("@")
+    if not separator or not local or not domain or "@" in domain:
+        return ""
+    if any(character.isspace() for character in domain):
+        return ""
+    return domain.lower()
+
 
 def first_link(text):
-    start = text.index('http')
-    end = text.find(' ', start)
-    if end == -1:
-        end = len(text)
-    return text[start:end]
+    """Return the first whitespace-delimited HTTP(S) URL, or an empty string."""
+    if not isinstance(text, str):
+        return ""
+    for token in text.split():
+        start = token.find("http://")
+        if start == -1:
+            start = token.find("https://")
+        if start != -1:
+            link = token[start:].rstrip(".,!?;:)]}\"'")
+            if link:
+                return link
+    return ""
+
 
 def shout_ratio(text):
-    letters = [c for c in text if c.isalpha()]
-    upper = [c for c in letters if c.isupper()]
-    return len(upper) / len(letters)
+    """Return the fraction of alphabetic characters that are uppercase."""
+    if not isinstance(text, str):
+        return 0.0
+    letters = [character for character in text if character.isalpha()]
+    if not letters:
+        return 0.0
+    return sum(character.isupper() for character in letters) / len(letters)
 
 def main():
     print("==== Running sender_domain ====")
