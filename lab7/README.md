@@ -12,3 +12,25 @@ A small Python module that parses sender addresses, finds the first HTTP(S) link
 |------|-------------|
 | `spam_scoring.py` | Defensive application code under test |
 | `test_spam_scoring.py` | Hypothesis no-crash fuzz tests for all three helpers |
+
+## Install and run
+
+From this directory, create an environment and install the two handout dependencies:
+
+```sh
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install hypothesis pytest
+```
+
+Run the interactive application:
+
+```sh
+python spam_scoring.py
+```
+
+Run the fuzz tests:
+
+```sh
+python -m pytest -q test_spam_scoring.py
+```
